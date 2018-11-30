@@ -11,7 +11,7 @@ typedef struct partition
     int start;
     int size;
     char  state; // F pour libre "Free" ET U pour utilisé "Used"
-
+    struct partition *next;
 }partition;
 
 typedef struct process
