@@ -13,31 +13,20 @@ typedef struct partition
     char  state; // F pour libre "Free" ET U pour utilisé "Used"
 
 }partition;
-//liste chainée des partitions
-typedef struct element
-{
-    partition data;
-    struct element* next;
-}element;
 
-typedef element *liste;
-//structure proccessus
 typedef struct process
 {
     int id;
     int time;
     int delay;
+    int size;
+    struct process *next;
 }process;
-//structure de l'element de la file
-typedef struct elementFile
-{
-    process data;
-    struct elementFile *next;
-}elementFile;
-//structure de la file
+
+
 typedef struct File
 {
-    elementFile* h,t;
+    process* h,t;
 }File;
 
 #endif //MEMORY_FUNCTION_H
