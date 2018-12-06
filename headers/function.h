@@ -6,27 +6,38 @@
 #define MEMORY_FUNCTION_H
 #include <stdio.h>
 #include <stdlib.h>
+
 typedef struct partition
 {
     int start;
     int size;
     char  state; // F pour libre "Free" ET U pour utilisé "Used"
-    struct partition *next;
 }partition;
+//liste chainée des partitions
+typedef struct elmMemo//element du memoire
+{
+    partition data;
+    struct elmMemo* next;
+}elmMemo;
+typedef elmMemo *Memo;
 
+//structure proccessus
 typedef struct process
 {
     int id;
     int time;
     int delay;
-    int size;
-    struct process *next;
 }process;
-
-
+//structure de l'element de la file
+typedef struct elmFile
+{
+    process data;
+    struct elmFile *next;
+}elmFile;
+//structure de la file
 typedef struct File
 {
-    process* h,t;
+    elementFile* h,t;
 }File;
 
 #endif //MEMORY_FUNCTION_H
