@@ -6,7 +6,7 @@
 #define MEMORY_FUNCTION_H
 #include <stdio.h>
 #include <stdlib.h>
-
+//---------DECLARATIONS DES STRUCTURES---------//
 typedef struct partition
 {
     int start;
@@ -39,5 +39,12 @@ typedef struct File
 {
     elementFile* h,t;
 }File;
-
+//----------PROTOTYPES DES FONCTIONS---------//
+//FILE
+void Enfiler(File *f,process x);
+void Defiler(File *f,process *x);
+int Filevide(File f);
+elmFile Tetefile(file f);
+//PILE
+memo creat_Partitions(int nombre_de_partitions);
 #endif //MEMORY_FUNCTION_H
