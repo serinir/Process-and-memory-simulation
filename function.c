@@ -37,35 +37,67 @@ process  Tetefile(File f){
     return (f.h)->data;
 }
 //------------------FONCTION DE LA PILE--------------//
-memo creat_Partitions(int nombre_de_partitions)
-{
-    memo l,p;
-    int temp;
-    l=malloc(sizeof(partition));
-    p=l;
-    //l'adress de debut de la premiere partition est egal a 0
-    p->data.start=0;
-    // la variable temp va sommer la taille de chaque partition
-    //et la mettre dans l'adress de debut de a prochaine partition
-    scanf("%d",&l->data.size);
-    temp=p->data.size;
+  Memo creat_Partitions(int nombre_de_partitions)
+  {
+      Memo l,p;
+      l=malloc(sizeof(partition));
+      p=l;
+      
+      //l'adress de debut de la premiere partition est egal a 0
+      p->data.start=0;
+      // la variable temp va sommer la taille de chaque partition
+      //et la mettre dans l'adress de debut de a prochaine partition
+      scanf("%d",&l->data.size);
+      int temp=p->data.size;
 
-    while(nombre_de_partitions--)
+      while(--nombre_de_partitions)
+      {
+          p->next=malloc(sizeof(partition));
+          p=p->next;
+          p->data.start=temp;
+          puts("donnée la taille de chaque paritions en kb");
+          do
+          {
+              scanf("%d",&p->data.size);
+              if(p->data.size>1024000)
+                  puts("La taille d'une partition ne peut pas dépasser 1024Mo");
+              else if(p->data.size<0)
+                  puts("La taille d'une partition ne peut pas etre inferieur a 0kb");
+          }while(p->data.size>1024000 || p->data.size<0);
+          if(nombre_de_partitions%2==0)
+            p->data.state='F';
+          else
+            p->data.state='U';
+
+          temp+=p->data.size;
+
+      }
+      p->next=NULL;
+      return l;
+  }
+  //-------FONCTIONS GRAPHICS -------//
+  void affiche_partitions(Memo l,int n)
+  {
+    WINDOW *win;
+    
+    Memo p=l;
+    int i=0;
+    while(p)
     {
-        p->next=malloc(sizeof(partition));
-        p=p->next;
-        p->data.start=temp;
-        puts("donnée la taille de chaque paritions en kb");
-        do
-        {
-            scanf("%d",&p->data.size);
-            if(p->data.size>1024000)
-                puts("La taille d'une partition ne peut pas dépasser 1024Mo");
-            else if(p->data.size<0)
-                puts("La taille d'une partition ne peut pas etre inferieur a 0kb");
-        }while(p->data.size>1024000 || p->data.size<0);
-        temp+=p->data.size;
+      init_pair(1,COLOR_GREEN,COLOR_WHITE);
+      init_pair(2,COLOR_RED,COLOR_WHITE);
+
+      win=newwin(2,2,i*2,2);
+      
+      box(win,0,0);
+      if(p->data.state=='F')
+      wbkgd(win,COLOR_PAIR(1));
+      else
+      wbkgd(win,COLOR_PAIR(2));
+
+      wrefresh(win);
+      i++;
+      p=p->next;
     }
-    p->next=NULL;
-    return l;
-}
+
+  }
