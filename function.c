@@ -36,47 +36,103 @@ int Filevide(File f){
 process  Tetefile(File f){
     return (f.h)->data;
 }
-//------------------FONCTION DE LA PILE--------------//
-  Memo creat_Partitions(int nombre_de_partitions)
-  {
-      Memo l,p;
-      l=malloc(sizeof(partition));
-      p=l;
-      
-      //l'adress de debut de la premiere partition est egal a 0
-      p->data.start=0;
-      // la variable temp va sommer la taille de chaque partition
-      //et la mettre dans l'adress de debut de a prochaine partition
-      scanf("%d",&l->data.size);
-      int temp=p->data.size;
 
-      while(--nombre_de_partitions)
-      {
-          p->next=malloc(sizeof(partition));
-          p=p->next;
-          p->data.start=temp;
-          puts("donnée la taille de chaque paritions en kb");
-          do
-          {
-              scanf("%d",&p->data.size);
-              if(p->data.size>1024000)
-                  puts("La taille d'une partition ne peut pas dépasser 1024Mo");
-              else if(p->data.size<0)
-                  puts("La taille d'une partition ne peut pas etre inferieur a 0kb");
-          }while(p->data.size>1024000 || p->data.size<0);
-          if(nombre_de_partitions%2==0)
-            p->data.state='F';
-          else
-            p->data.state='U';
+void Mettre_on_queue(File *f){ //may need it 
+  process x;
+  Defiler(f,&x);
+  Enfiler(f,x);
+}
+//------------------FONCTION DE LA RAM--------------//
+Memo Creat_Ram()
+{
+    Memo l=NULL,p=NULL,q=NULL;
+    partition x;
+    int temp=0;
 
-          temp+=p->data.size;
+    FILE *f=NULL;
+    f=fopen("MEMO.txt","r");
 
+    if(f){
+      while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && temp<100000000){
+        temp+=x.size; //la taille de la ram
+
+        if(!l){//first partition
+          l=(Memo)calloc(1,sizeof(partition));
+          l->data=x;
+          p=l; q=l;
+        }
+        else{
+          q=(Memo)calloc(1,sizeof(partition));
+          q->data=x;
+          p->next=q;
+          p=q;
+        }
       }
-      p->next=NULL;
-      return l;
+
+      q->next=NULL;
+      fclose(f);
+    }
+    else{
+      puts("Impossible d'ouvrir le fichier MEMO.txt");
+    }
+    return l;
+}
+
+   //-------FONCTUONS DE LA FILE-------//
+File Creat_file(){
+  File f={0};
+  process x;
+
+  FILE *h=NULL;
+  h=fopen("FILE.txt","r");
+
+  if(h){
+    while(fscanf(h,"%d %d %d %d",&x.id,&x.time,&x.delay,&x.size)!=EOF){
+      Enfiler(&f,x);
+    }
+    fclose(h);
   }
+  else{
+    puts("Impossible d'ouvrir le fichier FILE.txt");
+  }
+  return f;
+
+}
+  //--------FIT FONCTIONS-----------//
+
+Memo Firstfit(Memo M,process p)
+{
+  while(M && (M->data.state=='U' || M->data.size<p.size) ){
+    M=M->next;
+  }
+  return M;
+}
+
+Memo Bestfit(Memo M,process p){
+  Memo r=Firstfit(M,p);
+  M=r;
+  while(M){
+    if(M->data.state=='F' && M->data.size>=p.size && M->data.size<r->data.size){
+      r=M;
+    }
+    M=M->next;
+  }
+  return r;
+}
+
+Memo Worstfit(Memo M,process p){
+  Memo r=Firstfit(M,p);
+  M=r;
+  while(M){
+    if(M->data.state=='F' && M->data.size>=p.size && M->data.size>r->data.size){
+      r=M;
+    }
+    M=M->next;
+  }
+  return r;
+}
   //-------FONCTIONS GRAPHICS -------//
-  void affiche_partitions(Memo l,int n)
+  void Affiche_Ram(Memo l,int n)
   {
     WINDOW *win;
     
@@ -101,3 +157,4 @@ process  Tetefile(File f){
     }
 
   }
+
