@@ -42,7 +42,27 @@ void Mettre_on_queue(File *f){ //may need it
   Defiler(f,&x);
   Enfiler(f,x);
 }
-//------------------FONCTION DE LA RAM--------------//
+
+//-------------FONCTIONS DE LA PILE--------------//
+void Empiler(Pile *p,File f){
+  Pile q=(elmPile*)calloc(1,sizeof(elmPile));
+  q->f=f;
+  q->suiv=*p;
+  *p=q;
+}
+
+void Depiler(Pile *p,File *f){
+  Pile q=*p;
+  *f=(*p)->f;
+  *p=(*p)->suiv;
+  free(q);
+}
+
+int Pilevide(Pile p){
+  if(p==NULL) return 1;
+  return 0;
+}
+//------------------CREATION DE LA RAM--------------//
 Memo Creat_Ram()
 {
     Memo l=NULL,p=NULL,q=NULL;
@@ -78,25 +98,36 @@ Memo Creat_Ram()
     return l;
 }
 
-   //-------FONCTUONS DE LA FILE-------//
-File Creat_file(){
+   //-------CREATION DE LA FILE-------//
+File Creat_File(FILE *h){
   File f={0};
   process x;
-
-  FILE *h=NULL;
-  h=fopen("FILE.txt","r");
-
-  if(h){
     while(fscanf(h,"%d %d %d %d",&x.id,&x.time,&x.delay,&x.size)!=EOF){
       Enfiler(&f,x);
     }
-    fclose(h);
-  }
-  else{
-    puts("Impossible d'ouvrir le fichier FILE.txt");
-  }
-  return f;
 
+  return f;
+}
+
+  //---------CREATION DE LA PILE------//
+Pile Creat_Pile(int nbr_de_file){//nombre de fichier
+  char fname[20];
+  int i;
+  FILE *f=NULL;
+  Pile p=NULL;
+  for(i=0;i<nbr_de_file;i++){
+    sprintf(fname,"PILE/FILE%d.txt",i);
+    f=fopen(fname,"r");
+    if(f){
+      Empiler(&p,Creat_File(f));
+      fclose(f);
+    }
+    else{
+      printf("Impossible d'ouvrir le fichier FILE%d.txt\n",i);
+    }
+  }
+  
+  return p;
 }
   //--------FIT FONCTIONS-----------//
 
