@@ -39,12 +39,28 @@ typedef struct File
 {
     elementFile* h,t;
 }File;
+//tructure element de pile
+typedef struct elmPile{
+  File f;
+  struct elmPile *suiv;
+}elmPile;
+typedef elmPile *Pile;
+
 //----------PROTOTYPES DES FONCTIONS---------//
 //FILE
 void Enfiler(File *f,process x);
 void Defiler(File *f,process *x);
 int Filevide(File f);
 elmFile Tetefile(file f);
+void Mettre_on_queue(File *f);
 //PILE
-memo creat_Partitions(int nombre_de_partitions);
+void Empiler(Pile *p,File f);
+void Depiler(Pile *p,File *f);
+int Pilevide(Pile p);
+Pile Creat_Pile(int nbr_de_file);
+//MEMO
+Memo Firstfit(Memo M,process p);
+Memo Bestfit(Memo M,process p);
+Memo Worstfit(Memo M,process p);
+Memo creat_Partitions(int nombre_de_partitions);
 #endif //MEMORY_FUNCTION_H
