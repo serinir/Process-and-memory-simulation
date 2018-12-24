@@ -116,7 +116,7 @@ Pile Creat_Pile(int nbr_de_file){//nombre de fichier
   FILE *f=NULL;
   Pile p=NULL;
   for(i=0;i<nbr_de_file;i++){
-    sprintf(fname,"PILE/FILE%d.txt",i);
+    sprintf(fname,"FILE%d.txt",i);
     f=fopen(fname,"r");
     if(f){
       Empiler(&p,Creat_File(f));
@@ -163,7 +163,7 @@ Memo Worstfit(Memo M,process p){
   return r;
 }
   //-------FONCTIONS GRAPHICS -------//
-  void Affiche_Ram(Memo l,int n)
+  void Affiche_Ram(Memo l)
   {
     WINDOW *win;
     

@@ -6,6 +6,7 @@
 #define MEMORY_FUNCTION_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <curses.h>
 //---------DECLARATIONS DES STRUCTURES---------//
 typedef struct partition
 {
@@ -27,6 +28,7 @@ typedef struct process
     int id;
     int time;
     int delay;
+    int size;
 }process;
 //structure de l'element de la file
 typedef struct elmFile
@@ -37,7 +39,7 @@ typedef struct elmFile
 //structure de la file
 typedef struct File
 {
-    elementFile* h,t;
+    elmFile *h,*t;
 }File;
 //tructure element de pile
 typedef struct elmPile{
@@ -51,8 +53,10 @@ typedef elmPile *Pile;
 void Enfiler(File *f,process x);
 void Defiler(File *f,process *x);
 int Filevide(File f);
-elmFile Tetefile(file f);
+process Tetefile(File f);
 void Mettre_on_queue(File *f);
+File Creat_File(FILE *h);
+
 //PILE
 void Empiler(Pile *p,File f);
 void Depiler(Pile *p,File *f);
@@ -63,4 +67,6 @@ Memo Firstfit(Memo M,process p);
 Memo Bestfit(Memo M,process p);
 Memo Worstfit(Memo M,process p);
 Memo creat_Partitions(int nombre_de_partitions);
+void Affiche_Ram(Memo l);
+
 #endif //MEMORY_FUNCTION_H

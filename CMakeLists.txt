@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(MEMORY C)
-
 set(CMAKE_C_STANDARD 99)
-
-add_executable(MEMORY main.c function.c headers/function.h)
+find_package("/usr/lib/libcurses.a" )
+add_executable(MEMORY  main.c function.c headers/function.h)
+target_link_libraries(MEMORY curses)
