@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
+#include <time.h>
+
 //---------DECLARATIONS DES STRUCTURES---------//
 typedef struct partition
 {
@@ -51,7 +53,7 @@ typedef elmPile *Pile;
 //----------PROTOTYPES DES FONCTIONS---------//
 //FILE
 void Enfiler(File *f,process x);
-void Defiler(File *f,process *x);
+process Defiler(File *f);
 int Filevide(File f);
 process Tetefile(File f);
 void Mettre_on_queue(File *f);
@@ -67,6 +69,7 @@ Memo Firstfit(Memo M,process p);
 Memo Bestfit(Memo M,process p);
 Memo Worstfit(Memo M,process p);
 Memo creat_Partitions(int nombre_de_partitions);
+Memo Creat_Ram();
 void Affiche_Ram(Memo l);
 
 #endif //MEMORY_FUNCTION_H

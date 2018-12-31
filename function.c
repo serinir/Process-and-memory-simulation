@@ -20,12 +20,13 @@ void Enfiler(File *f,process x){
   }
 }
 
-void Defiler(File *f,process *x){
-  *x=(f->h)->data;
-  elmFile *p;
+process Defiler(File *f){
+ process x=(f->h)->data;
+    elmFile *p;
   p=f->h;
   f->h=(f->h)->next;
   free(p);
+  return x;
 }
 
 int Filevide(File f){
@@ -39,7 +40,7 @@ process  Tetefile(File f){
 
 void Mettre_on_queue(File *f){ //may need it 
   process x;
-  Defiler(f,&x);
+  x=Defiler(f);
   Enfiler(f,x);
 }
 
@@ -97,6 +98,10 @@ Memo Creat_Ram()
     }
     return l;
 }
+//void gestionDeMemoire(Memo &p,)
+//{
+//
+//}
 
    //-------CREATION DE LA FILE-------//
 File Creat_File(FILE *h){
@@ -163,7 +168,7 @@ Memo Worstfit(Memo M,process p){
   return r;
 }
   //-------FONCTIONS GRAPHICS -------//
-  void Affiche_Ram(Memo l)
+ void Affiche_Ram(Memo l)
   {
     WINDOW *win;
     

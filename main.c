@@ -1,14 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
+
 #include "headers/function.h"
 int main(void)
 {
 //    File mesProcess;
 //    FILE *maFILE=fopen("FILE0.txt","r+");
-    Pile maMemoire=NULL;
-    maMemoire=Creat_Pile(3);
+   Memo maMemoire=NULL;
+    maMemoire=Creat_Ram();
+    initscr();
+    noecho();
+    nocbreak();
+    refresh();
+    start_color();
     Affiche_Ram(maMemoire);
-
-
+    getch();
+    endwin();
     return 0;
 }
