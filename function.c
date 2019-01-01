@@ -118,7 +118,17 @@ void gestionDeMemoire(Memo *p)
  }
 
 }
-
+void checkUsed(Memo src)
+{
+     Memo temp=src;
+     time_t t;
+     while(temp)
+     {
+         if(temp->data.state=='U' && temp->data.proc.time==time(NULL))
+             temp->data.state='F';
+         temp = temp->next;
+     }
+}
    //-------CREATION DE LA FILE-------//
 File Creat_File(FILE *h){
   File f={0};
