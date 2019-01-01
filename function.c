@@ -1,6 +1,4 @@
 //
-// Created by khiro on 07/12/18.
-//
 
 #include "headers/function.h"
 
@@ -68,7 +66,7 @@ Memo Creat_Ram()
 {
     Memo l=NULL,p=NULL,q=NULL;
     partition x;
-    int temp=0;
+    time_t temp=time(NULL);;
 
     FILE *f=NULL;
     f=fopen("MEMO.txt","r");
@@ -83,7 +81,7 @@ Memo Creat_Ram()
           p=l; q=l;
         }
         else{
-          q=(Memo)calloc(1,sizeof(partition));
+          q=malloc(sizeof(partition));
           q->data=x;
           p->next=q;
           p=q;
@@ -98,10 +96,26 @@ Memo Creat_Ram()
     }
     return l;
 }
-//void gestionDeMemoire(Memo &p,)
-//{
-//
-//}
+void gestionDeMemoire(Memo *p)
+{
+ Memo *q=p,end=*q;
+// on itere j'usquau dernier element de la liste
+ while(end->next)
+   end=end->next;
+ //a chaque partition libre qu'on trouve on la met a la fin et elle devien la nouvelle fin;
+ while((*q))
+ {
+   if((*q)->data.state=='F' && (*q)->next)
+   {
+     end->next=*q;
+     *q=(*q)->next;
+     end=end->next;
+     end->next=NULL;
+   }
+   *q=(*q)->next;
+ }
+
+}
 
    //-------CREATION DE LA FILE-------//
 File Creat_File(FILE *h){
@@ -171,14 +185,12 @@ Memo Worstfit(Memo M,process p){
  void Affiche_Ram(Memo l)
   {
     WINDOW *win;
-    
     Memo p=l;
     int i=0;
     while(p)
     {
-      init_pair(1,COLOR_GREEN,COLOR_WHITE);
-      init_pair(2,COLOR_RED,COLOR_WHITE);
-
+      init_pair(1,COLOR_GREEN,COLOR_CYAN);
+      init_pair(2,COLOR_RED,COLOR_RED)  ;
       win=newwin(2,2,i*2,2);
       
       box(win,0,0);

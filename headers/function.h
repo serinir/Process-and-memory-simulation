@@ -71,5 +71,5 @@ Memo Worstfit(Memo M,process p);
 Memo creat_Partitions(int nombre_de_partitions);
 Memo Creat_Ram();
 void Affiche_Ram(Memo l);
-
+void gestionDeMemoire(Memo *p);
 #endif //MEMORY_FUNCTION_H
