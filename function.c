@@ -66,7 +66,7 @@ Memo Creat_Ram()
 {
     Memo l=NULL,p=NULL,q=NULL;
     partition x;
-    time_t temp=time(NULL);;
+    time_t temp=0;
 
     FILE *f=NULL;
     f=fopen("MEMO.txt","r");
@@ -81,7 +81,7 @@ Memo Creat_Ram()
           p=l; q=l;
         }
         else{
-          q=malloc(sizeof(partition));
+          q=(Memo)calloc(1,sizeof(partition));
           q->data=x;
           p->next=q;
           p=q;
@@ -98,21 +98,23 @@ Memo Creat_Ram()
 }
 void gestionDeMemoire(Memo *p)
 {
- Memo *q=p,end=*q;
+ Memo *q=&(*p),end=*q,oldend;
 // on itere j'usquau dernier element de la liste
  while(end->next)
    end=end->next;
+ oldend=end;
  //a chaque partition libre qu'on trouve on la met a la fin et elle devien la nouvelle fin;
  while((*q))
  {
-   if((*q)->data.state=='F' && (*q)->next)
-   {
-     end->next=*q;
-     *q=(*q)->next;
-     end=end->next;
-     end->next=NULL;
-   }
-   *q=(*q)->next;
+   if((*q)!=oldend) {
+     if ((*q)->data.state == 'F' && (*q)->next) {
+       end->next = *q;
+       *q = (*q)->next;
+       end = end->next;
+       end->next = NULL;
+     } else if ((*q)->next)
+       q = &((*q)->next);
+   }else {break;}
  }
 
 }
@@ -182,18 +184,18 @@ Memo Worstfit(Memo M,process p){
   return r;
 }
   //-------FONCTIONS GRAPHICS -------//
- void Affiche_Ram(Memo l)
+ void Affiche_Ram(Memo l,int t)
   {
     WINDOW *win;
     Memo p=l;
     int i=0;
     while(p)
     {
-      init_pair(1,COLOR_GREEN,COLOR_CYAN);
+      init_pair(1,COLOR_GREEN,COLOR_GREEN);
       init_pair(2,COLOR_RED,COLOR_RED)  ;
-      win=newwin(2,2,i*2,2);
+      win=newwin(2,2,t,i*2+5*i);
       
-      box(win,0,0);
+      box(win,1,1);
       if(p->data.state=='F')
       wbkgd(win,COLOR_PAIR(1));
       else
