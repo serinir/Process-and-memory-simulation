@@ -66,14 +66,14 @@ Memo Creat_Ram()
 {
     Memo l=NULL,p=NULL,q=NULL;
     partition x;
-    time_t temp=0;
+    int taille=0;
 
     FILE *f=NULL;
     f=fopen("MEMO.txt","r");
 
     if(f){
-      while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && temp<100000000){
-        temp+=x.size; //la taille de la ram
+      while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && taille<100000000){
+        taille+=x.size; //la taille de la ram
 
         if(!l){//first partition
           l=(Memo)calloc(1,sizeof(partition));
@@ -87,7 +87,6 @@ Memo Creat_Ram()
           p=q;
         }
       }
-
       q->next=NULL;
       fclose(f);
     }
@@ -121,10 +120,10 @@ void gestionDeMemoire(Memo *p)
 void checkUsed(Memo src)
 {
      Memo temp=src;
-     time_t t;
+
      while(temp)
      {
-         if(temp->data.state=='U' && temp->data.proc.time==time(NULL))
+         if(temp->data.state=='U' && temp->data.proc.time<=time(NULL))
              temp->data.state='F';
          temp = temp->next;
      }
@@ -181,7 +180,6 @@ Memo Bestfit(Memo M,process p){
   }
   return r;
 }
-
 Memo Worstfit(Memo M,process p){
   Memo r=Firstfit(M,p);
   M=r;
@@ -195,13 +193,13 @@ Memo Worstfit(Memo M,process p){
 }
 void insertProc(Memo dest,process p)
 {
-
     if(dest->data.state !='F')
         puts("erreur adress renvoyer non libre");
     else
     {
         dest->data.state='U';
         dest->data.proc=p;
+        dest->data.proc.time+=time(NULL);
     }
 }
   //-------FONCTIONS GRAPHICS -------//
