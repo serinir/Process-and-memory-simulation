@@ -67,13 +67,16 @@ void Depiler(Pile *p,File *f);
 int Pilevide(Pile p);
 Pile Creat_Pile(int nbr_de_file);
 //MEMO
+void newNode(Memo *l,int size);
 Memo Firstfit(Memo M,process p);
 Memo Bestfit(Memo M,process p);
 Memo Worstfit(Memo M,process p);
-Memo creat_Partitions(int nombre_de_partitions);
 Memo Creat_Ram();
+
 void Affiche_Ram(Memo l,int t);
+
 void gestionDeMemoire(Memo *p);
-void insertProc(Memo src,process p);
+int insertProc(Memo src,process p);
 void checkUsed(Memo src);
+
 #endif //MEMORY_FUNCTION_H

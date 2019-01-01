@@ -1,7 +1,33 @@
 //
 
 #include "headers/function.h"
-
+//----------------FONCTIONS DE LISTE------------//
+void newNode(Memo *l,int size)
+{
+    Memo p=*l,q;
+    int start;
+    if(size>0) {
+        if (!*l) {
+            *l = malloc(sizeof(partition));
+            (*l)->data.size = size;
+            (*l)->data.state = 'F';
+            (*l)->data.start = 0;
+            (*l)->next = NULL;
+        } else {
+            while (p) {
+                q = p;
+                start = p->data.start + p->data.size;
+                p = p->next;
+            }
+            q->next = malloc(sizeof(partition));
+            q = q->next;
+            q->data.size = size;
+            q->data.state = 'F';
+            q->data.start = start;
+            q->next = NULL;
+        }
+    }
+}
 //----------FONCTIONS DE LA FILE---------------//
 void Enfiler(File *f,process x){
   elmFile *p;
@@ -69,7 +95,7 @@ Memo Creat_Ram()
     int taille=0;
 
     FILE *f=NULL;
-    f=fopen("MEMO.txt","r");
+    f=fopen("../MEMO.txt","r");
 
     if(f){
       while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && taille<100000000){
@@ -191,16 +217,23 @@ Memo Worstfit(Memo M,process p){
   }
   return r;
 }
-void insertProc(Memo dest,process p)
+int insertProc(Memo dest,process p)
 {
-    if(dest->data.state !='F')
-        puts("erreur adress renvoyer non libre");
-    else
-    {
-        dest->data.state='U';
-        dest->data.proc=p;
-        dest->data.proc.time+=time(NULL);
+    int diff;
+    if(dest) {
+        if (dest->data.state != 'F')
+            puts("erreur adress renvoyer non libre");
+        else {
+            dest->data.state = 'U';
+            dest->data.proc = p;
+            dest->data.proc.time += time(NULL);
+            diff=dest->data.size-p.size;
+            dest->data.size=p.size;
+            newNode(&dest,diff);
+        }
+        return 1;
     }
+    return 0;
 }
   //-------FONCTIONS GRAPHICS -------//
  void Affiche_Ram(Memo l,int t)
