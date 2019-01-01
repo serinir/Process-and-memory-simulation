@@ -9,16 +9,15 @@ int main(void)
     maMemoire=Creat_Ram();
 
 
-     initscr();
+    initscr();
     noecho();
     nocbreak();
     refresh();
     start_color();
     Affiche_Ram(maMemoire,2);
     sleep(1);
-  gestionDeMemoire(&maMemoire);
-
-   Affiche_Ram(maMemoire,8);
+    gestionDeMemoire(&maMemoire);
+    Affiche_Ram(maMemoire,8);
     getch();
     endwin();
     return 0;
