@@ -69,7 +69,7 @@ Memo Creat_Ram()
     time_t temp=0;
 
     FILE *f=NULL;
-    f=fopen("MEMO.txt","r");
+    f=fopen("../MEMO.txt","r");
 
     if(f){
       while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && temp<100000000){
@@ -182,6 +182,16 @@ Memo Worstfit(Memo M,process p){
     M=M->next;
   }
   return r;
+}
+void insertProc(Memo dest,process p)
+{
+    if(dest->data.state !='F')
+        puts("erreur adress renvoyer non libre");
+    else
+    {
+        dest->data.state='U';
+        dest->data.proc=p;
+    }
 }
   //-------FONCTIONS GRAPHICS -------//
  void Affiche_Ram(Memo l,int t)

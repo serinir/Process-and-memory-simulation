@@ -10,8 +10,17 @@
 #include <time.h>
 
 //---------DECLARATIONS DES STRUCTURES---------//
+//structure proccessus
+typedef struct process
+{
+    int id;
+    int time;
+    int delay;
+    int size;
+}process;
 typedef struct partition
 {
+    process proc;
     int start;
     int size;
     char  state; // F pour libre "Free" ET U pour utilisé "Used"
@@ -24,14 +33,7 @@ typedef struct elmMemo//element du memoire
 }elmMemo;
 typedef elmMemo *Memo;
 
-//structure proccessus
-typedef struct process
-{
-    int id;
-    int time;
-    int delay;
-    int size;
-}process;
+
 //structure de l'element de la file
 typedef struct elmFile
 {

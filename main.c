@@ -3,10 +3,8 @@
 #include "headers/function.h"
 int main(void)
 {
-//    File mesProcess;
-//    FILE *maFILE=fopen("FILE0.txt","r+");
    Memo maMemoire=NULL;
-    maMemoire=Creat_Ram();
+   maMemoire=Creat_Ram();
 
 
     initscr();
