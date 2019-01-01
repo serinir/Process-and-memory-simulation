@@ -74,4 +74,5 @@ Memo creat_Partitions(int nombre_de_partitions);
 Memo Creat_Ram();
 void Affiche_Ram(Memo l,int t);
 void gestionDeMemoire(Memo *p);
+void insertProc(Memo src,process p);
 #endif //MEMORY_FUNCTION_H
