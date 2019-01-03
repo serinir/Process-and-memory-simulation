@@ -95,7 +95,7 @@ Memo Creat_Ram()
     int taille=0;
 
     FILE *f=NULL;
-    f=fopen("../MEMO.txt","r");
+    f=fopen("MEMO.txt","r");
 
     if(f){
       while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && taille<100000000){
@@ -257,6 +257,5 @@ int insertProc(Memo dest,process p)
       i++;
       p=p->next;
     }
-
   }
 
