@@ -1,6 +1,14 @@
 //
 
 #include "headers/function.h"
+char *choices[] = {
+        "Set Up the Memory",
+        "Display Memory",
+        "Creat and Enqueue the initial <waiting state> Process in the queue",
+        "Display Processes queue",
+        "Choose Allocation methode",
+        "Load process into memmory",
+};
 //----------------FONCTIONS DE LISTE------------//
 void newNode(Memo *l,int size)
 {
@@ -45,6 +53,7 @@ void Enfiler(File *f,process x){
 }
 
 process Defiler(File *f){
+
  process x=(f->h)->data;
     elmFile *p;
   p=f->h;
@@ -245,7 +254,7 @@ int insertProc(Memo dest,process p)
     {
       init_pair(1,COLOR_GREEN,COLOR_GREEN);
       init_pair(2,COLOR_RED,COLOR_RED)  ;
-      win=newwin(2,2,t,i*2+5*i);
+      win=newwin(2,2,10+t,i*2+5*i);
       
       box(win,1,1);
       if(p->data.state=='F')
@@ -258,4 +267,81 @@ int insertProc(Memo dest,process p)
       p=p->next;
     }
   }
+void printmen(WINDOW *m,int j)
+{
+    box(m,0,0);
+    wattron(m,A_BOLD|A_ITALIC);
+    mvwprintw(m,1,1,"QUE VOULEZ VOUS FAIRE");
+    wattroff(m,A_BOLD|A_ITALIC);
+    for(int i=2;i<=7;i++)
+    {
+        if(i==j)
+        {
+            wattron(m,A_REVERSE);
+            mvwprintw(m,i,1,"%s",choices[i-2]);
+            wattroff(m,A_REVERSE);
+        }else mvwprintw(m,i,1,"%s",choices[i-2]);
+    }
+    wrefresh(m);
+}
+void supwin(WINDOW *win,int n)
+{
+    wborder(win,' ',' ',' ',' ',' ',' ',' ',' ');
+
+    for(size_t i = 0; i <= n; i++)
+    {
+        mvwprintw(win,1+i,1,"                                                                  " );
+    }
+    wrefresh(win);
+    delwin(win);
+}
+
+int affichemen(int a)
+{
+    int cho=0,highlight=a;
+    char c;
+    WINDOW *n=newwin(9,70,0,0);
+    keypad(n,TRUE);
+    printmen(n,highlight);
+    //printf("shlag");
+    while(1)
+    {
+        c=wgetch(n);
+        switch(c)
+        {
+            case 3 : if(highlight == 2 )
+                    highlight = 7;
+                else --highlight;break;
+            case 2:if(highlight == 7 )
+                    highlight = 2;
+                else ++highlight;break;
+
+            case 10: cho=highlight;break;
+            default : mvprintw(4, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
+                refresh();break;
+        }
+        printmen(n,highlight);
+        if(cho != 0)	/* User did a choice come out of the infinite loop */
+            break;
+
+    }
+    supwin(n,7);
+    return cho-2;
+}
+void afficheAlarme(char *s)
+{
+    WINDOW *win=newwin(3,30,10,0);
+    box(win,0,0);
+    wattron(win,A_BOLD|A_ITALIC);
+    mvwprintw(win,1,1,"%s",s);
+    wattroff(win,A_BOLD|A_ITALIC);
+    wrefresh(win);
+
+}
+
+
+
+
+
+
 

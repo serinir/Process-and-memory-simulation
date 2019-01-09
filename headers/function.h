@@ -4,8 +4,10 @@
 
 #ifndef MEMORY_FUNCTION_H
 #define MEMORY_FUNCTION_H
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <curses.h>
 #include <time.h>
 
@@ -78,5 +80,10 @@ void Affiche_Ram(Memo l,int t);
 void gestionDeMemoire(Memo *p);
 int insertProc(Memo src,process p);
 void checkUsed(Memo src);
+//GRAPHIQUE
+int affichemen(int a);
+void supwin(WINDOW *win,int n);
+void printmen(WINDOW *m,int j);
+void afficheAlarme(char *s);
 
 #endif //MEMORY_FUNCTION_H
