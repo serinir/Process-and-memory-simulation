@@ -85,5 +85,6 @@ int affichemen(int a);
 void supwin(WINDOW *win,int n);
 void printmen(WINDOW *m,int j);
 void afficheAlarme(char *s);
+void delAlarme();
 
 #endif //MEMORY_FUNCTION_H

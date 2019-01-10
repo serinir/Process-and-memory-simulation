@@ -338,6 +338,13 @@ void afficheAlarme(char *s)
     wrefresh(win);
 
 }
+void delAlarme()
+{
+    for(size_t i = 9; i <=12 ; i++)
+    {
+        mvprintw(1+i,0,"                                                                  " );
+    }
+}
 
 
 

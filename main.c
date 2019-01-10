@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include "headers/function.h"
 char *ERROR_MEMORY="SET UP THE MEMORY PLEASE !";
+char *ERROR_QUEUE="SET UP THE QUEUE PLEASE ! ";
+char *ERROR_W="SHIT'S NOT READY YET!";
 int main(void)
 {
     int highlight;
@@ -41,22 +43,24 @@ int main(void)
                     break;
                 }
                 case 3: {
-                    mvprintw(25, 25, "shit isn't done yet");
+                    afficheAlarme(ERROR_W);
                     break;
                 }
                 case 4: {
-                    mvprintw(30, 25, "shit isn't done yet");
+                    afficheAlarme(ERROR_W);
                     break;
                 }
                 case 5: {
                     if(f.h)
                     {p = Defiler(&f);
-                    insertProc(Firstfit(maMemoire, p), p);}
+                    insertProc(Firstfit(maMemoire, p), p);}else afficheAlarme(ERROR_QUEUE);
                     break;
                 }
             }
         }
         sleep(1);
+        delAlarme();
+        refresh();
         checkUsed(maMemoire);
     } while (choix != 8);
 //    Affiche_Ram(maMemoire, 2);
