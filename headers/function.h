@@ -10,6 +10,7 @@
 #include <string.h>
 #include <curses.h>
 #include <time.h>
+#define TAILLE_MENUE1 6
 
 //---------DECLARATIONS DES STRUCTURES---------//
 //structure proccessus
@@ -81,9 +82,11 @@ void gestionDeMemoire(Memo *p);
 int insertProc(Memo src,process p);
 void checkUsed(Memo src);
 //GRAPHIQUE
-int affichemen(int a);
+//int affichemen(int a);
+int affichemen(int a,char *choices[],int taille);
 void supwin(WINDOW *win,int n);
-void printmen(WINDOW *m,int j);
+//void printmen(WINDOW *m,int j);
+void printmen(WINDOW *m,int j,char *choices[],int taille);
 void afficheAlarme(char *s);
 void delAlarme();
 

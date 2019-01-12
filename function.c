@@ -1,14 +1,7 @@
 //
 
 #include "headers/function.h"
-char *choices[] = {
-        "Set Up the Memory",
-        "Display Memory",
-        "Creat and Enqueue the initial <waiting state> Process in the queue",
-        "Display Processes queue",
-        "Choose Allocation methode",
-        "Load process into memmory",
-};
+
 //----------------FONCTIONS DE LISTE------------//
 void newNode(Memo *l,int size)
 {
@@ -261,19 +254,18 @@ int insertProc(Memo dest,process p)
       wbkgd(win,COLOR_PAIR(1));
       else
       wbkgd(win,COLOR_PAIR(2));
-
       wrefresh(win);
       i++;
       p=p->next;
     }
   }
-void printmen(WINDOW *m,int j)
+void printmen(WINDOW *m,int j,char *choices[],int taille)
 {
     box(m,0,0);
     wattron(m,A_BOLD|A_ITALIC);
     mvwprintw(m,1,1,"QUE VOULEZ VOUS FAIRE");
     wattroff(m,A_BOLD|A_ITALIC);
-    for(int i=2;i<=7;i++)
+    for(int i=2;i<=taille+1;i++)
     {
         if(i==j)
         {
@@ -296,13 +288,13 @@ void supwin(WINDOW *win,int n)
     delwin(win);
 }
 
-int affichemen(int a)
+int affichemen(int a,char *choices[],int taille)
 {
     int cho=0,highlight=a;
     char c;
-    WINDOW *n=newwin(9,70,0,0);
+    WINDOW *n=newwin(taille+3,70,0,0);
     keypad(n,TRUE);
-    printmen(n,highlight);
+    printmen(n,highlight,choices,taille);
     //printf("shlag");
     while(1)
     {
@@ -310,22 +302,21 @@ int affichemen(int a)
         switch(c)
         {
             case 3 : if(highlight == 2 )
-                    highlight = 7;
+                    highlight = taille+1;
                 else --highlight;break;
-            case 2:if(highlight == 7 )
+            case 2:if(highlight == taille+1 )
                     highlight = 2;
                 else ++highlight;break;
 
             case 10: cho=highlight;break;
-            default : mvprintw(4, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
-                refresh();break;
         }
-        printmen(n,highlight);
+        printmen(n,highlight,choices,taille);
         if(cho != 0)	/* User did a choice come out of the infinite loop */
             break;
 
     }
     supwin(n,7);
+
     return cho-2;
 }
 void afficheAlarme(char *s)
