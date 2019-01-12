@@ -291,7 +291,7 @@ int affichemen(int a,char *choices[],int taille)
 {
     int cho=0,highlight=a;
     char c;
-    WINDOW *n=newwin(9,70,0,0);
+    WINDOW *n=newwin(taille+3,70,0,0);
     keypad(n,TRUE);
     printmen(n,highlight,choices,taille);
     //printf("shlag");
@@ -301,9 +301,9 @@ int affichemen(int a,char *choices[],int taille)
         switch(c)
         {
             case 3 : if(highlight == 2 )
-                    highlight = 7;
+                    highlight = taille+1;
                 else --highlight;break;
-            case 2:if(highlight == 7 )
+            case 2:if(highlight == taille+1 )
                     highlight = 2;
                 else ++highlight;break;
 
@@ -316,7 +316,7 @@ int affichemen(int a,char *choices[],int taille)
             break;
 
     }
-    supwin(n,7);
+    supwin(n,taille+1);
     return cho-2;
 }
 void afficheAlarme(char *s)

@@ -11,10 +11,16 @@ char *choices[] = {
         "Choose Allocation methode",
         "Load process into memmory",
 };
+char *Fit[]={
+        "First Fit",
+        "Best Fit",
+        "Worst Fit",
+};
 int main(void)
 {
     int highlight;
-    int choix;
+    int choix,fitChoix;
+    Memo (*fitFuncPointer)(Memo,process);
     initscr();
     noecho();
     cbreak();
@@ -54,7 +60,13 @@ int main(void)
                     break;
                 }
                 case 4: {
-                    afficheAlarme(ERROR_W);
+                    fitChoix=affichemen(2,Fit,SIZE_FIT);
+                    switch (fitChoix)
+                    {
+                        case 0:{fitFuncPointer=&(Firstfit);break;}
+                        case 1:{fitFuncPointer=&(Bestfit);break;}
+                        case 2:{fitFuncPointer=&(Worstfit);break;}
+                    }
                     break;
                 }
                 case 5: {
