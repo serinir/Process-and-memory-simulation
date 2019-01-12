@@ -3,6 +3,14 @@
 char *ERROR_MEMORY="SET UP THE MEMORY PLEASE !";
 char *ERROR_QUEUE="SET UP THE QUEUE PLEASE ! ";
 char *ERROR_W="SHIT'S NOT READY YET!";
+char *choices[] = {
+        "Set Up the Memory",
+        "Display Memory",
+        "Creat and Enqueue the initial <waiting state> Process in the queue",
+        "Display Processes queue",
+        "Choose Allocation methode",
+        "Load process into memmory",
+};
 int main(void)
 {
     int highlight;
@@ -22,7 +30,7 @@ int main(void)
     process p;
     // affichemen(2);
     do {
-        choix = affichemen(2);
+        choix = affichemen(2,choices,SIZE_CHOICES);
         initscr();
         switch (choix) {
             case 0   : {
@@ -52,7 +60,7 @@ int main(void)
                 case 5: {
                     if(f.h)
                     {p = Defiler(&f);
-                        insertProc(Bestfit(maMemoire, p), p);}else afficheAlarme(ERROR_QUEUE);
+                        insertProc(Worstfit(maMemoire, p), p);}else afficheAlarme(ERROR_QUEUE);
                     break;
                 }
             }

@@ -1,12 +1,5 @@
 #include "headers/function.h"
-char *choices[] = {
-        "Set Up the Memory",
-        "Display Memory",
-        "Creat and Enqueue the initial <waiting state> Process in the queue",
-        "Display Processes queue",
-        "Choose Allocation methode",
-        "Load process into memmory",
-};
+
 //----------------FONCTIONS DE LISTE------------//
 void newNode(Memo *l,int size)
 {
@@ -265,13 +258,13 @@ void Affiche_Ram(Memo l,int t)
         p=p->next;
     }
 }
-void printmen(WINDOW *m,int j)
+void printmen(WINDOW *m,int j,char *choices[],int taille)
 {
     box(m,0,0);
     wattron(m,A_BOLD|A_ITALIC);
     mvwprintw(m,1,1,"QUE VOULEZ VOUS FAIRE");
     wattroff(m,A_BOLD|A_ITALIC);
-    for(int i=2;i<=7;i++)
+    for(int i=2;i<=taille+1;i++)
     {
         if(i==j)
         {
@@ -294,13 +287,13 @@ void supwin(WINDOW *win,int n)
     delwin(win);
 }
 
-int affichemen(int a)
+int affichemen(int a,char *choices[],int taille)
 {
     int cho=0,highlight=a;
     char c;
     WINDOW *n=newwin(9,70,0,0);
     keypad(n,TRUE);
-    printmen(n,highlight);
+    printmen(n,highlight,choices,taille);
     //printf("shlag");
     while(1)
     {
@@ -318,7 +311,7 @@ int affichemen(int a)
             default : mvprintw(4, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
                 refresh();break;
         }
-        printmen(n,highlight);
+        printmen(n,highlight,choices,taille);
         if(cho != 0)	/* User did a choice come out of the infinite loop */
             break;
 

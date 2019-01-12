@@ -4,7 +4,8 @@
 
 #ifndef MEMORY_FUNCTION_H
 #define MEMORY_FUNCTION_H
-
+#define SIZE_CHOICES 6
+#define SIZE_FIT 3
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,9 +82,9 @@ void gestionDeMemoire(Memo *p);
 int insertProc(Memo src,process p);
 void checkUsed(Memo src);
 //GRAPHIQUE
-int affichemen(int a);
+int affichemen(int a,char *choices[],int taille);
 void supwin(WINDOW *win,int n);
-void printmen(WINDOW *m,int j);
+void printmen(WINDOW *m,int j,char *choices[],int taille);
 void afficheAlarme(char *s);
 void delAlarme();
 
