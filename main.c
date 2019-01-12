@@ -29,7 +29,7 @@ int main(void)
     //afficheAlarme(ERROR_MEMORY);
     getch();
     Memo maMemoire = NULL;
-    FILE *a = fopen("FILE0.txt", "r");
+    FILE *a ;
     File f;
     f.h = NULL;
     f.t = NULL;
@@ -52,6 +52,7 @@ int main(void)
                     break;
                 }
                 case 2: {
+                    a=fopen("FILE0.txt", "r");
                     f = Creat_File(a);
                     break;
                 }
@@ -72,7 +73,7 @@ int main(void)
                 case 5: {
                     if(f.h)
                     {p = Defiler(&f);
-                        insertProc(Worstfit(maMemoire, p), p);}else afficheAlarme(ERROR_QUEUE);
+                        insertProc(fitFuncPointer(maMemoire, p), p);}else afficheAlarme(ERROR_QUEUE);
                     break;
                 }
             }
