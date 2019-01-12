@@ -1,22 +1,8 @@
-
 #include <unistd.h>
 #include "headers/function.h"
 char *ERROR_MEMORY="SET UP THE MEMORY PLEASE !";
 char *ERROR_QUEUE="SET UP THE QUEUE PLEASE ! ";
 char *ERROR_W="SHIT'S NOT READY YET!";
-char *choices[] = {
-        "Set Up the Memory",
-        "Display Memory",
-        "Creat and Enqueue the initial <waiting state> Process in the queue",
-        "Display Processes queue",
-        "Choose Allocation methode",
-        "Load process into memory",
-};
-char *Fit[]={
-        "First Fit",
-        "Best Fit",
-        "Worst fit",
-};
 int main(void)
 {
     int highlight;
@@ -25,19 +11,18 @@ int main(void)
     noecho();
     cbreak();
     refresh();
-    void (*fitFunc)(Memo ,process);
-  //  start_color();
-  //afficheAlarme(ERROR_MEMORY);
-  getch();
+    //  start_color();
+    //afficheAlarme(ERROR_MEMORY);
+    getch();
     Memo maMemoire = NULL;
     FILE *a = fopen("FILE0.txt", "r");
     File f;
     f.h = NULL;
     f.t = NULL;
     process p;
-   // affichemen(2);
+    // affichemen(2);
     do {
-        choix = affichemen(2,choices,6);
+        choix = affichemen(2);
         initscr();
         switch (choix) {
             case 0   : {
@@ -47,7 +32,7 @@ int main(void)
             }
             case 1: {
                 if (maMemoire)
-                {start_color();Affiche_Ram(maMemoire, 2);break; }
+                {start_color();Affiche_Ram(maMemoire, 2);break;}
                 else {
                     afficheAlarme(ERROR_MEMORY);
                     break;
@@ -62,24 +47,20 @@ int main(void)
                 }
                 case 4: {
                     afficheAlarme(ERROR_W);
-
                     break;
                 }
                 case 5: {
                     if(f.h)
                     {p = Defiler(&f);
-                    insertProc(Bestfit(maMemoire, p), p);}else afficheAlarme(ERROR_QUEUE);
+                        insertProc(Bestfit(maMemoire, p), p);}else afficheAlarme(ERROR_QUEUE);
                     break;
                 }
             }
         }
-        refresh();
         sleep(1);
         delAlarme();
         refresh();
         checkUsed(maMemoire);
-        if(maMemoire)
-        gestionDeMemoire(&maMemoire);
     } while (choix != 8);
 //    Affiche_Ram(maMemoire, 2);
 //    sleep(1);

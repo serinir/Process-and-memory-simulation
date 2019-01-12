@@ -1,7 +1,12 @@
-//
-
 #include "headers/function.h"
-
+char *choices[] = {
+        "Set Up the Memory",
+        "Display Memory",
+        "Creat and Enqueue the initial <waiting state> Process in the queue",
+        "Display Processes queue",
+        "Choose Allocation methode",
+        "Load process into memmory",
+};
 //----------------FONCTIONS DE LISTE------------//
 void newNode(Memo *l,int size)
 {
@@ -31,63 +36,63 @@ void newNode(Memo *l,int size)
 }
 //----------FONCTIONS DE LA FILE---------------//
 void Enfiler(File *f,process x){
-  elmFile *p;
-  p=(elmFile*)calloc(1,sizeof(elmFile));
-  p->data=x;
-  p->next=NULL;
-  if(f->h==NULL){
-     f->h=p;
-     f->t=p;
-  }
-  else{
-    (f->t)->next=p;
-    f->t=p;
-  }
+    elmFile *p;
+    p=(elmFile*)calloc(1,sizeof(elmFile));
+    p->data=x;
+    p->next=NULL;
+    if(f->h==NULL){
+        f->h=p;
+        f->t=p;
+    }
+    else{
+        (f->t)->next=p;
+        f->t=p;
+    }
 }
 
 process Defiler(File *f){
 
- process x=(f->h)->data;
+    process x=(f->h)->data;
     elmFile *p;
-  p=f->h;
-  f->h=(f->h)->next;
-  free(p);
-  return x;
+    p=f->h;
+    f->h=(f->h)->next;
+    free(p);
+    return x;
 }
 
 int Filevide(File f){
-  if(f.h==NULL) return 1;
-  return 0;
+    if(f.h==NULL) return 1;
+    return 0;
 }
 
 process  Tetefile(File f){
     return (f.h)->data;
 }
 
-void Mettre_on_queue(File *f){ //may need it 
-  process x;
-  x=Defiler(f);
-  Enfiler(f,x);
+void Mettre_on_queue(File *f){ //may need it
+    process x;
+    x=Defiler(f);
+    Enfiler(f,x);
 }
 
 //-------------FONCTIONS DE LA PILE--------------//
 void Empiler(Pile *p,File f){
-  Pile q=(elmPile*)calloc(1,sizeof(elmPile));
-  q->f=f;
-  q->suiv=*p;
-  *p=q;
+    Pile q=(elmPile*)calloc(1,sizeof(elmPile));
+    q->f=f;
+    q->suiv=*p;
+    *p=q;
 }
 
 void Depiler(Pile *p,File *f){
-  Pile q=*p;
-  *f=(*p)->f;
-  *p=(*p)->suiv;
-  free(q);
+    Pile q=*p;
+    *f=(*p)->f;
+    *p=(*p)->suiv;
+    free(q);
 }
 
 int Pilevide(Pile p){
-  if(p==NULL) return 1;
-  return 0;
+    if(p==NULL) return 1;
+    return 0;
 }
 //------------------CREATION DE LA RAM--------------//
 Memo Creat_Ram()
@@ -100,124 +105,124 @@ Memo Creat_Ram()
     f=fopen("MEMO.txt","r");
 
     if(f){
-      while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && taille<100000000){
-        taille+=x.size; //la taille de la ram
+        while(fscanf(f,"%d %d %c",&x.start,&x.size,&x.state)!=EOF && taille<100000000){
+            taille+=x.size; //la taille de la ram
 
-        if(!l){//first partition
-          l=(Memo)calloc(1,sizeof(partition));
-          l->data=x;
-          p=l; q=l;
+            if(!l){//first partition
+                l=(Memo)calloc(1,sizeof(partition));
+                l->data=x;
+                p=l; q=l;
+            }
+            else{
+                q=(Memo)calloc(1,sizeof(partition));
+                q->data=x;
+                p->next=q;
+                p=q;
+            }
         }
-        else{
-          q=(Memo)calloc(1,sizeof(partition));
-          q->data=x;
-          p->next=q;
-          p=q;
-        }
-      }
-      q->next=NULL;
-      fclose(f);
+        q->next=NULL;
+        fclose(f);
     }
     else{
-      puts("Impossible d'ouvrir le fichier MEMO.txt");
+        puts("Impossible d'ouvrir le fichier MEMO.txt");
     }
     return l;
 }
 void gestionDeMemoire(Memo *p)
 {
- Memo *q=&(*p),end=*q,oldend;
+    Memo *q=&(*p),end=*q,oldend;
 // on itere j'usquau dernier element de la liste
- while(end->next)
-   end=end->next;
- oldend=end;
- //a chaque partition libre qu'on trouve on la met a la fin et elle devien la nouvelle fin;
- while((*q))
- {
-   if((*q)!=oldend) {
-     if ((*q)->data.state == 'F' && (*q)->next) {
-       end->next = *q;
-       *q = (*q)->next;
-       end = end->next;
-       end->next = NULL;
-     } else if ((*q)->next)
-       q = &((*q)->next);
-   }else {break;}
- }
+    while(end->next)
+        end=end->next;
+    oldend=end;
+    //a chaque partition libre qu'on trouve on la met a la fin et elle devien la nouvelle fin;
+    while((*q))
+    {
+        if((*q)!=oldend) {
+            if ((*q)->data.state == 'F' && (*q)->next) {
+                end->next = *q;
+                *q = (*q)->next;
+                end = end->next;
+                end->next = NULL;
+            } else if ((*q)->next)
+                q = &((*q)->next);
+        }else {break;}
+    }
 
 }
 void checkUsed(Memo src)
 {
-     Memo temp=src;
+    Memo temp=src;
 
-     while(temp)
-     {
-         if(temp->data.state=='U' && temp->data.proc.time<=time(NULL))
-             temp->data.state='F';
-         temp = temp->next;
-     }
+    while(temp)
+    {
+        if(temp->data.state=='U' && temp->data.proc.time<=time(NULL))
+            temp->data.state='F';
+        temp = temp->next;
+    }
 }
-   //-------CREATION DE LA FILE-------//
+//-------CREATION DE LA FILE-------//
 File Creat_File(FILE *h){
-  File f={0};
-  process x;
+    File f={0};
+    process x;
     while(fscanf(h,"%d %d %d %d",&x.id,&x.time,&x.delay,&x.size)!=EOF){
-      Enfiler(&f,x);
+        Enfiler(&f,x);
     }
 
-  return f;
+    return f;
 }
 
-  //---------CREATION DE LA PILE------//
+//---------CREATION DE LA PILE------//
 Pile Creat_Pile(int nbr_de_file){//nombre de fichier
-  char fname[20];
-  int i;
-  FILE *f=NULL;
-  Pile p=NULL;
-  for(i=0;i<nbr_de_file;i++){
-    sprintf(fname,"FILE%d.txt",i);
-    f=fopen(fname,"r");
-    if(f){
-      Empiler(&p,Creat_File(f));
-      fclose(f);
+    char fname[20];
+    int i;
+    FILE *f=NULL;
+    Pile p=NULL;
+    for(i=0;i<nbr_de_file;i++){
+        sprintf(fname,"FILE%d.txt",i);
+        f=fopen(fname,"r");
+        if(f){
+            Empiler(&p,Creat_File(f));
+            fclose(f);
+        }
+        else{
+            printf("Impossible d'ouvrir le fichier FILE%d.txt\n",i);
+        }
     }
-    else{
-      printf("Impossible d'ouvrir le fichier FILE%d.txt\n",i);
-    }
-  }
-  
-  return p;
+
+    return p;
 }
-  //--------FIT FONCTIONS-----------//
+//--------FIT FONCTIONS-----------//
 
 Memo Firstfit(Memo M,process p)
 {
-  while(M && (M->data.state=='U' || M->data.size<p.size) ){
-    M=M->next;
-  }
-  return M;
+    while(M && (M->data.state=='U' || M->data.size<p.size) ){
+        M=M->next;
+    }
+    return M;
 }
 
 Memo Bestfit(Memo M,process p){
-  Memo r=Firstfit(M,p);
-  M=r;
-  while(M){
-    if(M->data.state=='F' && M->data.size>=p.size && M->data.size<r->data.size){
-      r=M;
+    Memo r=Firstfit(M,p);
+    M=r;
+    while(M){
+        if(M->data.state=='F' && M->data.size>=p.size && M->data.size<r->data.size){
+            r=M;
+        }
+        M=M->next;
     }
-    M=M->next;
-  }
-  return r;
+    return r;
 }
 Memo Worstfit(Memo M,process p){
-  Memo r=Firstfit(M,p);
-  M=r;
-  while(M){
-    if(M->data.state=='F' && M->data.size>=p.size && M->data.size>r->data.size){
-      r=M;
+    Memo r=Firstfit(M,p);
+    M=r;
+    while(M){
+        if(M->data.state=='F' && M->data.size>=p.size && M->data.size>r->data.size){
+            r=M;
+        }
+        M=M->next;
     }
-    M=M->next;
-  }
-  return r;
+    return r;
 }
 int insertProc(Memo dest,process p)
 {
@@ -237,35 +242,36 @@ int insertProc(Memo dest,process p)
     }
     return 0;
 }
-  //-------FONCTIONS GRAPHICS -------//
- void Affiche_Ram(Memo l,int t)
-  {
+//-------FONCTIONS GRAPHICS -------//
+void Affiche_Ram(Memo l,int t)
+{
     WINDOW *win;
     Memo p=l;
     int i=0;
     while(p)
     {
-      init_pair(1,COLOR_GREEN,COLOR_GREEN);
-      init_pair(2,COLOR_RED,COLOR_RED)  ;
-      win=newwin(2,2,10+t,i*2+5*i);
-      
-      box(win,1,1);
-      if(p->data.state=='F')
-      wbkgd(win,COLOR_PAIR(1));
-      else
-      wbkgd(win,COLOR_PAIR(2));
-      wrefresh(win);
-      i++;
-      p=p->next;
+        init_pair(1,COLOR_GREEN,COLOR_GREEN);
+        init_pair(2,COLOR_RED,COLOR_RED)  ;
+        win=newwin(2,2,10+t,i*2+5*i);
+
+        box(win,1,1);
+        if(p->data.state=='F')
+            wbkgd(win,COLOR_PAIR(1));
+        else
+            wbkgd(win,COLOR_PAIR(2));
+
+        wrefresh(win);
+        i++;
+        p=p->next;
     }
-  }
-void printmen(WINDOW *m,int j,char *choices[],int taille)
+}
+void printmen(WINDOW *m,int j)
 {
     box(m,0,0);
     wattron(m,A_BOLD|A_ITALIC);
     mvwprintw(m,1,1,"QUE VOULEZ VOUS FAIRE");
     wattroff(m,A_BOLD|A_ITALIC);
-    for(int i=2;i<=taille+1;i++)
+    for(int i=2;i<=7;i++)
     {
         if(i==j)
         {
@@ -288,13 +294,13 @@ void supwin(WINDOW *win,int n)
     delwin(win);
 }
 
-int affichemen(int a,char *choices[],int taille)
+int affichemen(int a)
 {
     int cho=0,highlight=a;
     char c;
-    WINDOW *n=newwin(taille+3,70,0,0);
+    WINDOW *n=newwin(9,70,0,0);
     keypad(n,TRUE);
-    printmen(n,highlight,choices,taille);
+    printmen(n,highlight);
     //printf("shlag");
     while(1)
     {
@@ -302,21 +308,22 @@ int affichemen(int a,char *choices[],int taille)
         switch(c)
         {
             case 3 : if(highlight == 2 )
-                    highlight = taille+1;
+                    highlight = 7;
                 else --highlight;break;
-            case 2:if(highlight == taille+1 )
+            case 2:if(highlight == 7 )
                     highlight = 2;
                 else ++highlight;break;
 
             case 10: cho=highlight;break;
+            default : mvprintw(4, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
+                refresh();break;
         }
-        printmen(n,highlight,choices,taille);
+        printmen(n,highlight);
         if(cho != 0)	/* User did a choice come out of the infinite loop */
             break;
 
     }
     supwin(n,7);
-
     return cho-2;
 }
 void afficheAlarme(char *s)
@@ -336,10 +343,3 @@ void delAlarme()
         mvprintw(1+i,0,"                                                                  " );
     }
 }
-
-
-
-
-
-
-

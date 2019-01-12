@@ -10,7 +10,6 @@
 #include <string.h>
 #include <curses.h>
 #include <time.h>
-#define TAILLE_MENUE1 6
 
 //---------DECLARATIONS DES STRUCTURES---------//
 //structure proccessus
@@ -50,8 +49,8 @@ typedef struct File
 }File;
 //tructure element de pile
 typedef struct elmPile{
-  File f;
-  struct elmPile *suiv;
+    File f;
+    struct elmPile *suiv;
 }elmPile;
 typedef elmPile *Pile;
 
@@ -82,11 +81,9 @@ void gestionDeMemoire(Memo *p);
 int insertProc(Memo src,process p);
 void checkUsed(Memo src);
 //GRAPHIQUE
-//int affichemen(int a);
-int affichemen(int a,char *choices[],int taille);
+int affichemen(int a);
 void supwin(WINDOW *win,int n);
-//void printmen(WINDOW *m,int j);
-void printmen(WINDOW *m,int j,char *choices[],int taille);
+void printmen(WINDOW *m,int j);
 void afficheAlarme(char *s);
 void delAlarme();
 
