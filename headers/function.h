@@ -6,6 +6,7 @@
 #define MEMORY_FUNCTION_H
 #define SIZE_CHOICES 6
 #define SIZE_FIT 3
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,78 +15,94 @@
 
 //---------DECLARATIONS DES STRUCTURES---------//
 //structure proccessus
-typedef struct process
-{
+typedef struct process {
     int id;
     int time;
     int delay;
     int size;
-}process;
-typedef struct partition
-{
+} process;
+typedef struct partition {
     process proc;
     int start;
     int size;
-    char  state; // F pour libre "Free" ET U pour utilisé "Used"
-}partition;
+    char state; // F pour libre "Free" ET U pour utilisé "Used"
+} partition;
 //liste chainée des partitions
 typedef struct elmMemo//element du memoire
 {
     partition data;
-    struct elmMemo* next;
-}elmMemo;
+    struct elmMemo *next;
+} elmMemo;
 typedef elmMemo *Memo;
 
 
 //structure de l'element de la file
-typedef struct elmFile
-{
+typedef struct elmFile {
     process data;
     struct elmFile *next;
-}elmFile;
+} elmFile;
 //structure de la file
-typedef struct File
-{
-    elmFile *h,*t;
-}File;
+typedef struct File {
+    elmFile *h, *t;
+} File;
 //tructure element de pile
-typedef struct elmPile{
+typedef struct elmPile {
     File f;
     struct elmPile *suiv;
-}elmPile;
+} elmPile;
 typedef elmPile *Pile;
 
 //----------PROTOTYPES DES FONCTIONS---------//
 //FILE
-void Enfiler(File *f,process x);
+void Enfiler(File *f, process x);
+
 process Defiler(File *f);
+
 int Filevide(File f);
+
 process Tetefile(File f);
+
 void Mettre_on_queue(File *f);
+
 File Creat_File(FILE *h);
 
 //PILE
-void Empiler(Pile *p,File f);
-void Depiler(Pile *p,File *f);
+void Empiler(Pile *p, File f);
+
+void Depiler(Pile *p, File *f);
+
 int Pilevide(Pile p);
+
 Pile Creat_Pile(int nbr_de_file);
+
 //MEMO
-void newNode(Memo *l,int size);
-Memo Firstfit(Memo M,process p);
-Memo Bestfit(Memo M,process p);
-Memo Worstfit(Memo M,process p);
+void newNode(Memo *l, int size);
+
+Memo Firstfit(Memo M, process p);
+
+Memo Bestfit(Memo M, process p);
+
+Memo Worstfit(Memo M, process p);
+
 Memo Creat_Ram();
 
-void Affiche_Ram(Memo l,int t);
+void Affiche_Ram(Memo l, int t);
 
 void gestionDeMemoire(Memo *p);
-int insertProc(Memo src,process p);
+
+int insertProc(Memo src, process p);
+
 void checkUsed(Memo src);
+
 //GRAPHIQUE
-int affichemen(int a,char *choices[],int taille);
-void supwin(WINDOW *win,int n);
-void printmen(WINDOW *m,int j,char *choices[],int taille);
+int affichemen(int a, char *choices[], int taille);
+
+void supwin(WINDOW *win, int n);
+
+void printmen(WINDOW *m, int j, char *choices[], int taille);
+
 void afficheAlarme(char *s);
+
 void delAlarme();
 
 #endif //MEMORY_FUNCTION_H
