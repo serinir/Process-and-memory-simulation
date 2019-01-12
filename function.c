@@ -317,8 +317,8 @@ int affichemen(int a, char *choices[], int taille) {
     return cho - 2;
 }
 
-void afficheAlarme(char *s) {
-    WINDOW *win = newwin(3, 30, 10, 0);
+void afficheAlarme(char *s,int x,int y) {
+    WINDOW *win = newwin(3, 30, y, x);
     box(win, 0, 0);
     wattron(win, A_BOLD | A_ITALIC);
     mvwprintw(win, 1, 1, "%s", s);
@@ -328,7 +328,7 @@ void afficheAlarme(char *s) {
 }
 
 void delAlarme() {
-    for (size_t i = 9; i <= 12; i++) {
+    for (size_t i = 9; i <= 20; i++) {
         mvprintw(1 + i, 0, "                                                                                         ");
     }
 }

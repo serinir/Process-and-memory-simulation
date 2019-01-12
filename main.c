@@ -20,12 +20,13 @@ char *Fit[] = {
 
 int main(void) {
     int highlight;
-    int choix, fitChoix;
-    Memo (*fitFuncPointer)(Memo, process);
+    int choix, fitChoix,x,y;
+    Memo (*fitFuncPointer)(Memo, process)=NULL;
     initscr();
     noecho();
     cbreak();
     refresh();
+    getmaxyx(stdscr,x,y);
     //  start_color();
     //afficheAlarme(ERROR_MEMORY);
     getch();
@@ -42,7 +43,6 @@ int main(void) {
         switch (choix) {
             case 0   : {
                 maMemoire = Creat_Ram();
-                mvprintw(25, 25, "Memory READY");
                 break;
             }
             case 1: {
@@ -52,7 +52,7 @@ int main(void) {
                     break;
                 }
                 else {
-                    afficheAlarme(ERROR_MEMORY);
+                    afficheAlarme(ERROR_MEMORY,0,13);
                     break;
                 }
                 case 2: {
@@ -61,7 +61,7 @@ int main(void) {
                     break;
                 }
                 case 3: {
-                    afficheAlarme(ERROR_W);
+                    afficheAlarme(ERROR_W,0,10);
                     break;
                 }
                 case 4: {
@@ -83,14 +83,21 @@ int main(void) {
                     break;
                 }
                 case 5: {
-                    if (f.h) {
+                    if (maMemoire && f.h && fitFuncPointer) {
                         p = Defiler(&f);
                         insertProc(fitFuncPointer(maMemoire, p), p);
-                    } else afficheAlarme(ERROR_QUEUE);
+                    } else
+                    {
+                        if(!maMemoire) afficheAlarme(ERROR_MEMORY,0,13);
+                        if(!f.h) afficheAlarme(ERROR_QUEUE,0,16);
+                        if(!fitFuncPointer) afficheAlarme("FITFUNC !!! ",0,19);
+                        refresh();
+                    }
                     break;
                 }
             }
         }
+        getch();
         sleep(1);
         delAlarme();
         refresh();

@@ -101,7 +101,7 @@ void supwin(WINDOW *win, int n);
 
 void printmen(WINDOW *m, int j, char *choices[], int taille);
 
-void afficheAlarme(char *s);
+void afficheAlarme(char *s,int x,int y);
 
 void delAlarme();
 
