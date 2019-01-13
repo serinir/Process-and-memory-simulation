@@ -284,7 +284,6 @@ int afficheMen(int a, char *choices[], int taille,char* menuMsg) {
     WINDOW *n = newwin(taille + 3, 70, 0, 0);
     keypad(n, TRUE);
     printMen(n, highlight, choices, taille,menuMsg);
-    //printf("shlag");
     while (1) {
         c = wgetch(n);
         switch (c) {
