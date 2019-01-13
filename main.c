@@ -1,16 +1,19 @@
-#include <unistd.h>
+
 #include "headers/function.h"
 
 char *ERROR_MEMORY = "SET UP THE MEMORY PLEASE !";
 char *ERROR_QUEUE = "SET UP THE QUEUE PLEASE ! ";
 char *ERROR_W = "SHIT'S NOT READY YET!";
+char *MENU_MAIN ="MAIN MENU:";
+char *MENU_FIT="FIT MENU:";
+char *MENU_INS="INSERTION MENU: ";
 char *choices[] = {
         "Set Up the Memory",
         "Display Memory",
         "Creat and Enqueue the initial <waiting state> Process in the queue",
         "Display Processes queue",
-        "Choose Allocation methode",
-        "Load process into memmory",
+        "Choose Allocation method",
+        "Load process into memory",
 };
 char *Fit[] = {
         "First Fit",
@@ -41,7 +44,7 @@ int main(void) {
     process p;
     // affichemen(2);
     do {
-        choix = affichemen(2, choices, SIZE_CHOICES);
+        choix = afficheMen(2, choices, SIZE_CHOICES,MENU_MAIN);
         initscr();
         switch (choix) {
             case 0   : {
@@ -65,10 +68,11 @@ int main(void) {
                 }
                 case 3: {
                     afficheAlarme(ERROR_W,0,10);
+                    sleep(1);
                     break;
                 }
                 case 4: {
-                    fitChoix = affichemen(2, Fit, SIZE_FIT);
+                    fitChoix   = afficheMen(2, Fit, SIZE_FIT,MENU_FIT);
                     switch (fitChoix) {
                         case 0: {
                             fitFuncPointer = &(Firstfit);
@@ -82,15 +86,17 @@ int main(void) {
                             fitFuncPointer = &(Worstfit);
                             break;
                         }
+                        default: break;
                     }
                     break;
                 }
                 case 5: {
                     if (maMemoire && f.h && fitFuncPointer) {
-                        switch(affichemen(2,Insert,SIZE_INS))
+                        switch(afficheMen(2,Insert,SIZE_INS,MENU_INS))
                         {
                             case 0: {p = Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);break;}
                             case 1:{while(!Filevide(f)){p=Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);}break;}
+                            default: break;
                         }
 
                     } else
@@ -99,13 +105,14 @@ int main(void) {
                         if(!f.h) afficheAlarme(ERROR_QUEUE,0,16);
                         if(!fitFuncPointer) afficheAlarme("FITFUNC !!! ",0,19);
                         refresh();
+                        sleep(1);
                     }
                     break;
                 }
             }
         }
-        getch();
-        sleep(1);
+        //getch();
+
         delAlarme();
         refresh();
         checkUsed(maMemoire);

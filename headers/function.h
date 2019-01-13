@@ -12,6 +12,7 @@
 #include <string.h>
 #include <curses.h>
 #include <time.h>
+#include <unistd.h>
 
 //---------DECLARATIONS DES STRUCTURES---------//
 //structure proccessus
@@ -95,11 +96,11 @@ int insertProc(Memo src, process p);
 void checkUsed(Memo src);
 
 //GRAPHIQUE
-int affichemen(int a, char *choices[], int taille);
+int afficheMen(int a, char *choices[], int taille,char* menuMsg);
 
 void supwin(WINDOW *win, int n);
 
-void printmen(WINDOW *m, int j, char *choices[], int taille);
+void printMen(WINDOW *m, int j, char *choices[], int taille,char* menuMsg);
 
 void afficheAlarme(char *s,int x,int y);
 

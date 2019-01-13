@@ -253,10 +253,10 @@ void Affiche_Ram(Memo l, int t) {
     }
 }
 
-void printmen(WINDOW *m, int j, char *choices[], int taille) {
+void printMen(WINDOW *m, int j, char *choices[], int taille,char* menuMsg) {
     box(m, 0, 0);
     wattron(m, A_BOLD | A_ITALIC);
-    mvwprintw(m, 1, 1, "QUE VOULEZ VOUS FAIRE");
+    mvwprintw(m, 1, 1, "%s",menuMsg);
     wattroff(m, A_BOLD | A_ITALIC);
     for (int i = 2; i <= taille + 1; i++) {
         if (i == j) {
@@ -278,12 +278,12 @@ void supwin(WINDOW *win, int n) {
     delwin(win);
 }
 
-int affichemen(int a, char *choices[], int taille) {
+int afficheMen(int a, char *choices[], int taille,char* menuMsg) {
     int cho = 0, highlight = a;
     char c;
     WINDOW *n = newwin(taille + 3, 70, 0, 0);
     keypad(n, TRUE);
-    printmen(n, highlight, choices, taille);
+    printMen(n, highlight, choices, taille,menuMsg);
     //printf("shlag");
     while (1) {
         c = wgetch(n);
@@ -302,20 +302,22 @@ int affichemen(int a, char *choices[], int taille) {
             case 10:
                 cho = highlight;
                 break;
+            case 127:
+                    cho=1;
+                    break;
             default :
-                mvprintw(4, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
+                mvprintw(10, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
                 refresh();
                 break;
         }
-        printmen(n, highlight, choices, taille);
-        if (cho != 0)    /* User did a choice come out of the infinite loop */
+        printMen(n, highlight, choices, taille,menuMsg);
+        if (cho != 0)
             break;
 
     }
     supwin(n, taille + 1);
     return cho - 2;
 }
-
 void afficheAlarme(char *s,int x,int y) {
     WINDOW *win = newwin(3, 30, y, x);
     box(win, 0, 0);
@@ -323,9 +325,7 @@ void afficheAlarme(char *s,int x,int y) {
     mvwprintw(win, 1, 1, "%s", s);
     wattroff(win, A_BOLD | A_ITALIC);
     wrefresh(win);
-
 }
-
 void delAlarme() {
     for (size_t i = 9; i <= 20; i++) {
         mvprintw(1 + i, 0, "                                                                                         ");
