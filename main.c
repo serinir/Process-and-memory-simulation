@@ -17,7 +17,10 @@ char *Fit[] = {
         "Best Fit",
         "Worst Fit",
 };
-
+char *Insert[]={
+        "inserer un seule processus",
+        "Tout inserer"
+};
 int main(void) {
     int highlight;
     int choix, fitChoix,x,y;
@@ -84,8 +87,12 @@ int main(void) {
                 }
                 case 5: {
                     if (maMemoire && f.h && fitFuncPointer) {
-                        p = Defiler(&f);
-                        insertProc(fitFuncPointer(maMemoire, p), p);
+                        switch(affichemen(2,Insert,SIZE_INS))
+                        {
+                            case 0: {p = Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);break;}
+                            case 1:{while(!Filevide(f)){p=Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);}break;}
+                        }
+
                     } else
                     {
                         if(!maMemoire) afficheAlarme(ERROR_MEMORY,0,13);

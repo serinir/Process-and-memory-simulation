@@ -231,7 +231,6 @@ int insertProc(Memo dest, process p) {
     }
     return 0;
 }
-
 //-------FONCTIONS GRAPHICS -------//
 void Affiche_Ram(Memo l, int t) {
     WINDOW *win;

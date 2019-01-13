@@ -6,7 +6,7 @@
 #define MEMORY_FUNCTION_H
 #define SIZE_CHOICES 6
 #define SIZE_FIT 3
-
+#define SIZE_INS 2
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
