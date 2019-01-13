@@ -155,7 +155,7 @@ void checkUsed(Memo src) {
 File Creat_File(FILE *h) {
     File f = {0};
     process x;
-    while (fscanf(h, "%d %d %d %d", &x.id, &x.time, &x.delay, &x.size) != EOF) {
+    while (fscanf(h, "%d %d %d %d", &x.id, &x.time, &x.startTime, &x.size) != EOF) {
         Enfiler(&f, x);
     }
 
@@ -252,7 +252,18 @@ void Affiche_Ram(Memo l, int t) {
         p = p->next;
     }
 }
-
+void affiche_File(File f,int t)
+{
+    elmFile *p=f.h;
+    int i=0;
+    while(p)
+    {
+        mvprintw(10+i*t,0,"[%d] processus %d de taille %d et un temp d'execution de %d .",i+1,p->data.id,p->data.size,p->data.time);
+        p=p->next;
+        i=i+1;
+    }
+    refresh();
+}
 void printMen(WINDOW *m, int j, char *choices[], int taille,char* menuMsg) {
     box(m, 0, 0);
     wattron(m, A_BOLD | A_ITALIC);
@@ -305,7 +316,7 @@ int afficheMen(int a, char *choices[], int taille,char* menuMsg) {
                     cho=1;
                     break;
             default :
-                mvprintw(10, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
+                //mvprintw(10, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
                 refresh();
                 break;
         }

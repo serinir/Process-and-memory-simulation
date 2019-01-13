@@ -49,16 +49,20 @@ int main(void) {
         switch (choix) {
             case 0   : {
                 maMemoire = Creat_Ram();
+                afficheAlarme("MEMORY SETUP",0,10);
+                sleep(1);
                 break;
             }
             case 1: {
                 if (maMemoire) {
                     start_color();
                     Affiche_Ram(maMemoire, 2);
+                    getch();
                     break;
                 }
                 else {
                     afficheAlarme(ERROR_MEMORY,0,13);
+                    sleep(1);
                     break;
                 }
                 case 2: {
@@ -67,8 +71,10 @@ int main(void) {
                     break;
                 }
                 case 3: {
-                    afficheAlarme(ERROR_W,0,10);
-                    sleep(1);
+                    // afficheAlarme(ERROR_W,0,10);
+                    affiche_File(f,2);
+
+                    getch();
                     break;
                 }
                 case 4: {

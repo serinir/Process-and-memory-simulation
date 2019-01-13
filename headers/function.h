@@ -19,7 +19,7 @@
 typedef struct process {
     int id;
     int time;
-    int delay;
+    int startTime;
     int size;
 } process;
 typedef struct partition {
@@ -105,5 +105,6 @@ void printMen(WINDOW *m, int j, char *choices[], int taille,char* menuMsg);
 void afficheAlarme(char *s,int x,int y);
 
 void delAlarme();
+void affiche_File(File f,int t);
 
 #endif //MEMORY_FUNCTION_H
