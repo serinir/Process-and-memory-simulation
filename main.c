@@ -3,7 +3,7 @@
 
 char *ERROR_MEMORY = "SET UP THE MEMORY PLEASE !";
 char *ERROR_QUEUE = "SET UP THE QUEUE PLEASE ! ";
-char *ERROR_W = "SHIT'S NOT READY YET!";
+//char *ERROR_W = "SHIT'S NOT READY YET!";
 char *MENU_MAIN ="MAIN MENU:";
 char *MENU_FIT="FIT MENU:";
 char *MENU_INS="INSERTION MENU: ";
@@ -71,10 +71,12 @@ int main(void) {
                     break;
                 }
                 case 3: {
-                    // afficheAlarme(ERROR_W,0,10);
-                    affiche_File(f,2);
-
-                    getch();
+                    if(Filevide(f))
+                    {afficheAlarme(ERROR_QUEUE,0,10);sleep(1);}
+                    else {
+                        affiche_File(f, 2);
+                        getch();
+                    }
                     break;
                 }
                 case 4: {
