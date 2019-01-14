@@ -26,21 +26,19 @@ char *Insert[]={
 };
 int main(void) {
     int highlight;
-    int choix, fitChoix,x,y;
+    int choix, fitChoix,i;
     Memo (*fitFuncPointer)(Memo, process)=NULL;
     initscr();
     noecho();
     cbreak();
     refresh();
-    getmaxyx(stdscr,x,y);
+
     //  start_color();
     //afficheAlarme(ERROR_MEMORY);
     getch();
     Memo maMemoire = NULL;
     FILE *a;
-    File f;
-    f.h = NULL;
-    f.t = NULL;
+    File f={NULL,NULL};
     process p;
     // affichemen(2);
     do {
@@ -50,7 +48,7 @@ int main(void) {
             case 0   : {
                 maMemoire = Creat_Ram();
                 afficheAlarme("MEMORY SETUP",0,10);
-                sleep(1);
+                sleep(2);
                 break;
             }
             case 1: {
@@ -62,7 +60,7 @@ int main(void) {
                 }
                 else {
                     afficheAlarme(ERROR_MEMORY,0,13);
-                    sleep(1);
+                    sleep(2);
                     break;
                 }
                 case 2: {
@@ -102,8 +100,8 @@ int main(void) {
                     if (maMemoire && f.h && fitFuncPointer) {
                         switch(afficheMen(2,Insert,SIZE_INS,MENU_INS))
                         {
-                            case 0: {p = Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);break;}
-                            case 1:{while(!Filevide(f)){p=Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);}break;}
+                            case 0: {p = Defiler(&f);if(!insertProc(fitFuncPointer(maMemoire, p), p)) Enfiler(&f,p);break;}
+                            case 1:{start_color();i=0;while(!Filevide(f)){p=Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);Affiche_Ram(maMemoire,i++);refresh();sleep(1);checkUsed(maMemoire);}getch();break;}
                             default: break;
                         }
 
@@ -113,14 +111,13 @@ int main(void) {
                         if(!f.h) afficheAlarme(ERROR_QUEUE,0,16);
                         if(!fitFuncPointer) afficheAlarme("FITFUNC !!! ",0,19);
                         refresh();
-                        sleep(1);
+                        sleep(2);
                     }
                     break;
                 }
             }
         }
         //getch();
-
         delAlarme();
         refresh();
         checkUsed(maMemoire);

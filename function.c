@@ -60,13 +60,6 @@ int Filevide(File f) {
 process Tetefile(File f) {
     return (f.h)->data;
 }
-
-void Mettre_on_queue(File *f) { //may need it
-    process x;
-    x = Defiler(f);
-    Enfiler(f, x);
-}
-
 //-------------FONCTIONS DE LA PILE--------------//
 void Empiler(Pile *p, File f) {
     Pile q = (elmPile *) calloc(1, sizeof(elmPile));
@@ -239,8 +232,7 @@ void Affiche_Ram(Memo l, int t) {
     while (p) {
         init_pair(1, COLOR_GREEN, COLOR_GREEN);
         init_pair(2, COLOR_RED, COLOR_RED);
-        win = newwin(2, 2, 10 + t, i * 2 + 5 * i);
-
+        win = newwin(2, 2,5*t, i * 2 + 5 * i);
         box(win, 1, 1);
         if (p->data.state == 'F')
             wbkgd(win, COLOR_PAIR(1));
@@ -337,7 +329,7 @@ void afficheAlarme(char *s,int x,int y) {
     wrefresh(win);
 }
 void delAlarme() {
-    for (size_t i = 9; i <= 20; i++) {
-        mvprintw(1 + i, 0, "                                                                                         ");
+    for (size_t i = 0; i <= 250; i++) {
+        mvprintw(i, 0, "                                                                                                                                             ");
     }
 }

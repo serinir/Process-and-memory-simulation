@@ -62,9 +62,6 @@ process Defiler(File *f);
 int Filevide(File f);
 
 process Tetefile(File f);
-
-void Mettre_on_queue(File *f);
-
 File Creat_File(FILE *h);
 
 //PILE
