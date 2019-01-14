@@ -112,7 +112,7 @@ Memo Creat_Ram() {
     }
     return l;
 }
-
+//réarrange la memoire
 void gestionDeMemoire(Memo *p) {
     Memo *q = &(*p), end = *q, oldend;
 // on itere j'usquau dernier element de la liste
@@ -133,7 +133,7 @@ void gestionDeMemoire(Memo *p) {
     }
 
 }
-
+//verifie les partition utilisé et si le temp depasse le temp d'exec elle libere l'espace
 void checkUsed(Memo src) {
     Memo temp = src;
 
@@ -224,6 +224,7 @@ int insertProc(Memo dest, process p) {
     }
     return 0;
 }
+//inserer les processus d'une file sans verifier la priorié!
 process partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo)
 {
     process mcha={0,0,0,0};
@@ -243,6 +244,7 @@ process partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo)
     return mcha;
 }
 //-------FONCTIONS GRAPHICS -------//
+//affiche la ram en forme de bloc de 2 par 10 avec la taille ou le processus en cours d'execution
 void Affiche_Ram(Memo l, int t) {
     WINDOW *win;
     Memo p = l;
@@ -269,6 +271,7 @@ void Affiche_Ram(Memo l, int t) {
         p = p->next;
     }
 }
+//affiche la file sous forme de tableau
 void affiche_File(File f,int t)
 {
     elmFile *p=f.h;
@@ -284,6 +287,7 @@ void affiche_File(File f,int t)
     }
     refresh();
 }
+//affiche un menu la selection en surlignée
 void printMen(WINDOW *m, int j, char *choices[], int taille,char* menuMsg) {
     box(m, 0, 0);
     wattron(m, A_BOLD | A_ITALIC);
@@ -298,7 +302,7 @@ void printMen(WINDOW *m, int j, char *choices[], int taille,char* menuMsg) {
     }
     wrefresh(m);
 }
-
+//supprime le menu
 void supwin(WINDOW *win, int n) {
     wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
 
@@ -308,7 +312,7 @@ void supwin(WINDOW *win, int n) {
     wrefresh(win);
     delwin(win);
 }
-
+//affiche le menu surligne au fur et a mesure que les selction se font
 int afficheMen(int a, char *choices[], int taille,char* menuMsg) {
     int cho = 0, highlight = a;
     char c;
@@ -348,6 +352,7 @@ int afficheMen(int a, char *choices[], int taille,char* menuMsg) {
     supwin(n, taille + 1);
     return cho - 2;
 }
+//affiche un carrée textuelle decrivant une alarme
 void afficheAlarme(char *s,int x,int y) {
     WINDOW *win = newwin(3, 30, y, x);
     box(win, 0, 0);
@@ -356,11 +361,13 @@ void afficheAlarme(char *s,int x,int y) {
     wattroff(win, A_BOLD | A_ITALIC);
     wrefresh(win);
 }
+//supprime tout ce qui se trouve a l'ecrans
 void delAlarme() {
     for (size_t i = 0; i <= 250; i++) {
         mvprintw(i, 0, "                                                                                                                                             ");
     }
 }
+//affiche le contenue de la pile sous forme de tableau textuelle
 void affichePile(Pile *q)
 {
     Pile p=NULL;
@@ -380,7 +387,7 @@ void affichePile(Pile *q)
     }
 
 }
-
+//Depile et affiche la file depiller
 void partTwo(Pile *s,Memo (*fitFuncPointer)(Memo,process),Memo m)
 {
     process x;

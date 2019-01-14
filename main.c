@@ -141,6 +141,7 @@ int main(void) {
                 case 6: {s=Creat_Pile(3);afficheAlarme("Pile setup",0,16);getch();break;}
                 case 7: {if(!s){afficheAlarme("SETUP PILE!",0,16);getch();break;}else affichePile(&s);getch();break;}
             }
+            default: break;
         }
         //getch();
         delAlarme();
@@ -148,18 +149,7 @@ int main(void) {
         if(maMemoire)
         {checkUsed(maMemoire);
             gestionDeMemoire(&maMemoire);}
-    } while (choix != 8);
-//    Affiche_Ram(maMemoire, 2);
-//    sleep(1);
-//    insertProc(Firstfit(maMemoire, p), p);
-//    Affiche_Ram(maMemoire, 8);
-//    sleep(1);
-//    gestionDeMemoire(&maMemoire);
-//    Affiche_Ram(maMemoire, 16);
-//    sleep(2);
-//    checkUsed(maMemoire);
-//    Affiche_Ram(maMemoire, 20);
-//    time_t t = time(NULL);
+    } while (choix !=-1 );
 
 
     getch();
