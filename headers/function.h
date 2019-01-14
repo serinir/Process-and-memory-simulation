@@ -21,6 +21,7 @@ typedef struct process {
     int time;
     int startTime;
     int size;
+    int priorit;
 } process;
 typedef struct partition {
     process proc;
@@ -103,5 +104,5 @@ void afficheAlarme(char *s,int x,int y);
 
 void delAlarme();
 void affiche_File(File f,int t);
-
+void partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo);
 #endif //MEMORY_FUNCTION_H

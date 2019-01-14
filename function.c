@@ -224,6 +224,21 @@ int insertProc(Memo dest, process p) {
     }
     return 0;
 }
+void partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo)
+{
+    start_color();
+    int i=0;
+    process p;
+    while(!Filevide(*f))
+    {
+        p=Defiler(f);
+        insertProc(fitFuncPointer(memo, p), p);
+        Affiche_Ram(memo,i++);
+        refresh();
+        sleep(1);
+        checkUsed(memo);
+    }getch();
+}
 //-------FONCTIONS GRAPHICS -------//
 void Affiche_Ram(Memo l, int t) {
     WINDOW *win;

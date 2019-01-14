@@ -26,7 +26,7 @@ char *Insert[]={
 };
 int main(void) {
     int highlight;
-    int choix, fitChoix,i;
+    int choix, fitChoix;
     Memo (*fitFuncPointer)(Memo, process)=NULL;
     initscr();
     noecho();
@@ -48,7 +48,7 @@ int main(void) {
             case 0   : {
                 maMemoire = Creat_Ram();
                 afficheAlarme("MEMORY SETUP",0,10);
-                sleep(2);
+                getch();
                 break;
             }
             case 1: {
@@ -101,7 +101,7 @@ int main(void) {
                         switch(afficheMen(2,Insert,SIZE_INS,MENU_INS))
                         {
                             case 0: {p = Defiler(&f);if(!insertProc(fitFuncPointer(maMemoire, p), p)) Enfiler(&f,p);break;}
-                            case 1:{start_color();i=0;while(!Filevide(f)){p=Defiler(&f);insertProc(fitFuncPointer(maMemoire, p), p);Affiche_Ram(maMemoire,i++);refresh();sleep(1);checkUsed(maMemoire);}getch();break;}
+                            case 1:{partOne(&f,fitFuncPointer,maMemoire);break;}
                             default: break;
                         }
 
@@ -121,6 +121,7 @@ int main(void) {
         delAlarme();
         refresh();
         checkUsed(maMemoire);
+        gestionDeMemoire(&maMemoire);
     } while (choix != 8);
 //    Affiche_Ram(maMemoire, 2);
 //    sleep(1);
