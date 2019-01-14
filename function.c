@@ -224,20 +224,23 @@ int insertProc(Memo dest, process p) {
     }
     return 0;
 }
-void partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo)
+process partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo)
 {
+    process mcha={0,0,0,0};
     start_color();
     int i=0;
     process p;
     while(!Filevide(*f))
     {
         p=Defiler(f);
-        insertProc(fitFuncPointer(memo, p), p);
+        if(!insertProc(fitFuncPointer(memo, p), p)) return p;
         Affiche_Ram(memo,i++);
         refresh();
         sleep(1);
+        //delAlarme();
         checkUsed(memo);
     }getch();
+    return mcha;
 }
 //-------FONCTIONS GRAPHICS -------//
 void Affiche_Ram(Memo l, int t) {
@@ -247,12 +250,19 @@ void Affiche_Ram(Memo l, int t) {
     while (p) {
         init_pair(1, COLOR_GREEN, COLOR_GREEN);
         init_pair(2, COLOR_RED, COLOR_RED);
-        win = newwin(2, 2,5*t, i * 2 + 5 * i);
-        box(win, 1, 1);
+        //win = newwin(2, 10, 10 *t, i * 10 + 5 * i);
+
         if (p->data.state == 'F')
+        {win= newwin(1,p->data.size/10,2*i,0);
+            box(win, 1, 1);
             wbkgd(win, COLOR_PAIR(1));
+
+            mvprintw(i*2,p->data.size/10,"%d Ko                                                                      ",p->data.size);   }
         else
-            wbkgd(win, COLOR_PAIR(2));
+        {   win= newwin(1,p->data.size/10,2*i,0);
+            box(win,1,1);
+            mvprintw(i*2,p->data.size/10,"%d Ko <PROCESS %d RUNNING>                                                     ",p->data.size,p->data.proc.id);
+            wbkgd(win, COLOR_PAIR(2));}
 
         wrefresh(win);
         i++;
@@ -263,9 +273,12 @@ void affiche_File(File f,int t)
 {
     elmFile *p=f.h;
     int i=0;
+    wattron(stdscr,A_BOLD);
+    mvprintw(0,t,"ID\t|SIZE\t|TIME\t|DELAY");
+    wattroff(stdscr,A_BOLD);
     while(p)
     {
-        mvprintw(10+i*t,0,"[%d] processus %d de taille %d et un temp d'execution de %d .",i+1,p->data.id,p->data.size,p->data.time);
+        mvprintw(1+i*2,t,"%d \t%d \t%d \t%d",i+1,p->data.id,p->data.size,p->data.startTime,p->data.time);
         p=p->next;
         i=i+1;
     }
@@ -346,5 +359,41 @@ void afficheAlarme(char *s,int x,int y) {
 void delAlarme() {
     for (size_t i = 0; i <= 250; i++) {
         mvprintw(i, 0, "                                                                                                                                             ");
+    }
+}
+void affichePile(Pile *q)
+{
+    Pile p=NULL;
+    File f={0,0};
+    int i=0;
+    while(!Pilevide(*q))
+    {
+        Depiler(q,&f);
+        Empiler(&p,f);
+        affiche_File(f,40*i++);
+        sleep(1);
+    }
+    while(!Pilevide(p))
+    {
+        Depiler(&p,&f);
+        Empiler(q,f);
+    }
+
+}
+
+void partTwo(Pile *s,Memo (*fitFuncPointer)(Memo,process),Memo m)
+{
+    process x;
+    File f={0,0},g={0,0};
+    while(!Pilevide(*s)){
+        if(Filevide(f)) Depiler(s,&f);
+        x=partOne(&f,fitFuncPointer,m);
+        if(x.id){
+            if(!Pilevide(*s)){
+                Depiler(s,&g);
+                Enfiler(&g,x);
+                Empiler(s,g);
+            }
+        }
     }
 }

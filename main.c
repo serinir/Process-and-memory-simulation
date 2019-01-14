@@ -3,17 +3,19 @@
 
 char *ERROR_MEMORY = "SET UP THE MEMORY PLEASE !";
 char *ERROR_QUEUE = "SET UP THE QUEUE PLEASE ! ";
-//char *ERROR_W = "SHIT'S NOT READY YET!";
+char *ERROR_W = "SHIT'S NOT READY YET!";
 char *MENU_MAIN ="MAIN MENU:";
 char *MENU_FIT="FIT MENU:";
 char *MENU_INS="INSERTION MENU: ";
 char *choices[] = {
-        "Set Up the Memory",
+        "SetUp the Memory",
         "Display Memory",
-        "Creat and Enqueue the initial <waiting state> Process in the queue",
+        "Set up queue",
         "Display Processes queue",
         "Choose Allocation method",
         "Load process into memory",
+        "Setup Pile",
+        "Display Pile"
 };
 char *Fit[] = {
         "First Fit",
@@ -22,11 +24,14 @@ char *Fit[] = {
 };
 char *Insert[]={
         "inserer un seule processus",
-        "Tout inserer"
+        "Tout inserer",
+        "Iserer depuis la pile"
+
 };
 int main(void) {
     int highlight;
     int choix, fitChoix;
+    Pile s=NULL;
     Memo (*fitFuncPointer)(Memo, process)=NULL;
     initscr();
     noecho();
@@ -72,7 +77,7 @@ int main(void) {
                     if(Filevide(f))
                     {afficheAlarme(ERROR_QUEUE,0,10);sleep(1);}
                     else {
-                        affiche_File(f, 2);
+                        affiche_File(f, 0);
                         getch();
                     }
                     break;
@@ -92,36 +97,57 @@ int main(void) {
                             fitFuncPointer = &(Worstfit);
                             break;
                         }
+
                         default: break;
                     }
                     break;
                 }
                 case 5: {
-                    if (maMemoire && f.h && fitFuncPointer) {
                         switch(afficheMen(2,Insert,SIZE_INS,MENU_INS))
                         {
-                            case 0: {p = Defiler(&f);if(!insertProc(fitFuncPointer(maMemoire, p), p)) Enfiler(&f,p);break;}
-                            case 1:{partOne(&f,fitFuncPointer,maMemoire);break;}
+                            case 0: {
+                                    if(!f.h ) afficheAlarme(ERROR_QUEUE,0,16);
+                                    if(!maMemoire) afficheAlarme(ERROR_MEMORY,0,13);
+                                    if(!fitFuncPointer) afficheAlarme("FITFUNC !!! ",0,19);
+                                        if(!f.h || !maMemoire || !fitFuncPointer)
+                                        {getch();afficheAlarme("khrraaa",0,16);break;}
+                                    p = Defiler(&f);
+                                    if(!insertProc(fitFuncPointer(maMemoire, p), p)) Enfiler(&f,p);
+                                    break;}
+                            case 1:{
+                                if(!f.h ) afficheAlarme(ERROR_QUEUE,0,16);
+                                if(!maMemoire) afficheAlarme(ERROR_MEMORY,0,13);
+                                if(!fitFuncPointer) afficheAlarme("FITFUNC !!! ",0,19);
+
+                                if(!f.h || !maMemoire || !fitFuncPointer)
+                                {getch();break;}
+                                partOne(&f,fitFuncPointer,maMemoire);
+                                break;}
+                            case 2:{
+                                if(!s ) afficheAlarme("SETUP PILE !",0,16);
+                                if(!maMemoire) afficheAlarme(ERROR_MEMORY,0,13);
+                                if(!fitFuncPointer) afficheAlarme("FITFUNC !!! ",0,19);
+
+                                if(!s|| !maMemoire || !fitFuncPointer)
+                                {getch();break;}
+                                partTwo(&s,fitFuncPointer,maMemoire);
+                                break;}
+
                             default: break;
                         }
 
-                    } else
-                    {
-                        if(!maMemoire) afficheAlarme(ERROR_MEMORY,0,13);
-                        if(!f.h) afficheAlarme(ERROR_QUEUE,0,16);
-                        if(!fitFuncPointer) afficheAlarme("FITFUNC !!! ",0,19);
-                        refresh();
-                        sleep(2);
-                    }
                     break;
                 }
+                case 6: {s=Creat_Pile(3);afficheAlarme("Pile setup",0,16);getch();break;}
+                case 7: {if(!s){afficheAlarme("SETUP PILE!",0,16);getch();break;}else affichePile(&s);getch();break;}
             }
         }
         //getch();
         delAlarme();
         refresh();
-        checkUsed(maMemoire);
-        gestionDeMemoire(&maMemoire);
+        if(maMemoire)
+        {checkUsed(maMemoire);
+            gestionDeMemoire(&maMemoire);}
     } while (choix != 8);
 //    Affiche_Ram(maMemoire, 2);
 //    sleep(1);

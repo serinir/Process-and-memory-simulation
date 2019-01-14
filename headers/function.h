@@ -4,9 +4,9 @@
 
 #ifndef MEMORY_FUNCTION_H
 #define MEMORY_FUNCTION_H
-#define SIZE_CHOICES 6
+#define SIZE_CHOICES 8
 #define SIZE_FIT 3
-#define SIZE_INS 2
+#define SIZE_INS 3
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -104,5 +104,9 @@ void afficheAlarme(char *s,int x,int y);
 
 void delAlarme();
 void affiche_File(File f,int t);
-void partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo);
+process partOne(File *f,Memo (*fitFuncPointer)(Memo, process),Memo memo);
+void affichePile(Pile *q);
+void partTwo(Pile *s,Memo (*fitFuncPointer)(Memo,process),Memo m);
+
+
 #endif //MEMORY_FUNCTION_H
