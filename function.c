@@ -322,20 +322,23 @@ int afficheMen(int a, char *choices[], int taille,char* menuMsg) {
     while (1) {
         c = wgetch(n);
         switch (c) {
+            //code pour la touche bas
             case 3 :
                 if (highlight == 2)
                     highlight = taille + 1;
                 else --highlight;
                 break;
+            //code pour la touche bas
             case 2:
                 if (highlight == taille + 1)
                     highlight = 2;
                 else ++highlight;
                 break;
-
+            //code pour la touche entrée
             case 10:
                 cho = highlight;
                 break;
+            //code pour la touche retour
             case 127:
                     cho=1;
                     break;
